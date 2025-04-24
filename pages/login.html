@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 - AI简历生成器</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: white;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .login-container {
+            padding: 2rem 1.5rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #E5E7EB;
+        }
+        .divider span {
+            padding: 0 10px;
+            color: #6B7280;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="text-center mb-8 mt-4">
+            <h1 class="text-3xl font-bold text-gray-800">欢迎回来</h1>
+            <p class="text-gray-500 mt-2">登录您的AI简历生成器账号</p>
+        </div>
+        
+        <form class="mb-6">
+            <div class="mb-4">
+                <input type="text" placeholder="手机号/邮箱" class="form-input">
+            </div>
+            <div class="mb-6">
+                <input type="password" placeholder="密码" class="form-input">
+            </div>
+            <div class="flex justify-between items-center mb-6">
+                <label class="flex items-center">
+                    <input type="checkbox" class="mr-2">
+                    <span class="text-sm text-gray-600">记住我</span>
+                </label>
+                <a href="#" class="text-sm text-primary-600 hover:underline">忘记密码?</a>
+            </div>
+            <button type="button" class="btn-primary w-full">登录</button>
+        </form>
+        
+        <div class="divider">
+            <span>或使用以下方式登录</span>
+        </div>
+        
+        <div class="flex justify-center space-x-6 mb-6">
+            <a href="#" class="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center text-white">
+                <i class="fab fa-weixin text-xl"></i>
+            </a>
+            <a href="#" class="w-12 h-12 rounded-full bg-blue-400 flex items-center justify-center text-white">
+                <i class="fab fa-qq text-xl"></i>
+            </a>
+            <a href="#" class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-800">
+                <i class="fab fa-google text-xl"></i>
+            </a>
+        </div>
+        
+        <div class="mt-auto text-center mb-4">
+            <p class="text-gray-600">还没有账号? <a href="register.html" class="text-primary-600 font-medium hover:underline">立即注册</a></p>
+        </div>
+    </div>
+</body>
+</html> 

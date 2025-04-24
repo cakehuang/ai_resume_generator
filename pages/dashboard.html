@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户仪表盘 - AI简历生成器</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #F9FAFB;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .dashboard-container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 16px;
+            border-radius: 0 0 20px 20px;
+        }
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: -30px;
+            padding: 0 16px;
+        }
+        .stat-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        .resume-list {
+            padding: 16px;
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 70px; /* 增加底部padding，避免内容被导航栏遮挡 */
+        }
+        .resume-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        .progress-bar {
+            height: 6px;
+            background-color: #E5E7EB;
+            border-radius: 3px;
+            margin-top: 6px;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary-color);
+            border-radius: 3px;
+        }
+        
+        /* 导航栏样式 */
+        .nav-bar {
+            height: 70px;
+            padding-bottom: 8px;
+            position: relative;
+            background-color: white;
+        }
+        
+        .center-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 30px;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+            font-size: 24px;
+            margin-top: -30px;
+            border: 5px solid white;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+        
+        .nav-flex {
+            display: flex;
+            height: 100%;
+        }
+        
+        .nav-left {
+            position: absolute;
+            left: 5%; /* 距离左边5% */
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-right {
+            position: absolute;
+            right: 5%; /* 距离右边5% */
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .nav-item i {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+        
+        .nav-item span {
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="header">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h1 class="text-xl font-bold">你好，张小明</h1>
+                    <p class="text-sm opacity-80">开始创建你的专业简历吧</p>
+                </div>
+                <div class="relative">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile" class="w-12 h-12 rounded-full border-2 border-white">
+                    <span class="absolute -top-1 -right-1 bg-green-400 w-4 h-4 rounded-full border-2 border-white"></span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500 text-sm">我的简历</p>
+                        <p class="text-xl font-bold text-gray-800">3</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-500 text-sm">投递次数</p>
+                        <p class="text-xl font-bold text-gray-800">12</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                        <i class="fas fa-paper-plane"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="resume-list">
+            <!-- 会员信息卡片 - 已移动到我的简历上方 -->
+            <div class="resume-card bg-gradient-to-r from-purple-500 to-blue-600 text-white mb-6">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="font-medium">免费用户</h3>
+                        <p class="text-sm opacity-80 mt-1">本月剩余使用次数: 1/3</p>
+                    </div>
+                    <button class="bg-white text-indigo-600 text-xs font-medium py-2 px-3 rounded-lg">
+                        升级会员
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-semibold text-gray-800">我的简历</h2>
+                <a href="#" class="text-primary-600 text-sm">查看全部</a>
+            </div>
+            
+            <div class="resume-card">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-medium text-gray-800">产品经理简历</h3>
+                        <p class="text-sm text-gray-500 mt-1">上次编辑: 2天前</p>
+                    </div>
+                    <div class="bg-blue-100 text-blue-700 text-xs py-1 px-2 rounded">已完成</div>
+                </div>
+                <div class="progress-bar mt-3">
+                    <div class="progress-fill" style="width: 100%"></div>
+                </div>
+            </div>
+            
+            <div class="resume-card">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-medium text-gray-800">UI设计师简历</h3>
+                        <p class="text-sm text-gray-500 mt-1">上次编辑: 1小时前</p>
+                    </div>
+                    <div class="bg-yellow-100 text-yellow-700 text-xs py-1 px-2 rounded">编辑中</div>
+                </div>
+                <div class="progress-bar mt-3">
+                    <div class="progress-fill" style="width: 65%"></div>
+                </div>
+            </div>
+            
+            <div class="resume-card">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-medium text-gray-800">前端开发简历</h3>
+                        <p class="text-sm text-gray-500 mt-1">上次编辑: 5天前</p>
+                    </div>
+                    <div class="bg-blue-100 text-blue-700 text-xs py-1 px-2 rounded">已完成</div>
+                </div>
+                <div class="progress-bar mt-3">
+                    <div class="progress-fill" style="width: 100%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 底部导航栏 -->
+        <div class="nav-bar">
+            <div class="center-btn">
+                <a href="template-select.html">
+                    <i class="fas fa-plus"></i>
+                </a>
+            </div>
+            
+            <div class="nav-flex">
+                <div class="nav-left">
+                    <a href="#" class="nav-item active">
+                        <i class="fas fa-home"></i>
+                        <span>首页</span>
+                    </a>
+                </div>
+                <div class="nav-right">
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-user"></i>
+                        <span>我的</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

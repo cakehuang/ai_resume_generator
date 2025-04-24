@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>会员等级 - AI简历生成器</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: white;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .membership-container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 16px;
+            position: relative;
+            border-radius: 0 0 20px 20px;
+        }
+        .back-btn {
+            position: absolute;
+            left: 16px;
+            top: 16px;
+            color: white;
+            font-size: 18px;
+        }
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 16px;
+        }
+        .plan-card {
+            background-color: white;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid #F3F4F6;
+            position: relative;
+            overflow: hidden;
+        }
+        .plan-card.premium {
+            border: 2px solid var(--primary-color);
+        }
+        .plan-badge {
+            position: absolute;
+            top: 0;
+            right: -30px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 4px 30px;
+            font-size: 12px;
+            transform: rotate(45deg);
+            font-weight: 500;
+        }
+        .feature-list {
+            margin-top: 20px;
+        }
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .feature-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        .feature-icon.included {
+            background-color: #DCFCE7;
+            color: #15803D;
+        }
+        .feature-icon.excluded {
+            background-color: #FEE2E2;
+            color: #B91C1C;
+        }
+        .plan-price {
+            display: flex;
+            align-items: baseline;
+            margin-top: 12px;
+        }
+        .price-amount {
+            font-size: 28px;
+            font-weight: 700;
+            margin-right: 4px;
+        }
+        .price-period {
+            color: #6B7280;
+            font-size: 14px;
+        }
+        .educational-badge {
+            display: inline-block;
+            background-color: #EEF2FF;
+            color: var(--primary-color);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+        .tab-buttons {
+            display: flex;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #E5E7EB;
+        }
+        .tab-button {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            background-color: white;
+            font-weight: 500;
+        }
+        .tab-button.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="membership-container">
+        <div class="header">
+            <a href="dashboard.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <h1 class="text-xl font-bold text-center">会员等级</h1>
+            <p class="text-center text-sm mt-1 opacity-80">选择适合您的会员计划</p>
+        </div>
+        
+        <div class="content-area">
+            <div class="tab-buttons">
+                <button class="tab-button active">按月付费</button>
+                <button class="tab-button">按年付费<span class="ml-1 text-xs bg-yellow-300 text-yellow-800 px-1 rounded">省40%</span></button>
+            </div>
+            
+            <!-- 免费会员 -->
+            <div class="plan-card">
+                <h2 class="text-lg font-bold">免费会员</h2>
+                <p class="text-sm text-gray-500 mt-1">适合轻度使用者</p>
+                
+                <div class="plan-price">
+                    <span class="price-amount">¥0</span>
+                    <span class="price-period">/ 永久</span>
+                </div>
+                
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-icon included">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span>每月生成3份基础简历</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon included">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span>访问5个基础模板</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon included">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span>标准AI简历建议</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon excluded">
+                            <i class="fas fa-times text-xs"></i>
+                        </div>
+                        <span class="text-gray-400">高级AI简历优化</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon excluded">
+                            <i class="fas fa-times text-xs"></i>
+                        </div>
+                        <span class="text-gray-400">职位匹配分析</span>
+                    </div>
+                </div>
+                
+                <button class="w-full py-3 mt-6 bg-gray-100 text-gray-600 font-medium rounded-lg">当前方案</button>
+            </div>
+            
+            <!-- 高级会员 -->
+            <div class="plan-card premium">
+                <div class="plan-badge">推荐</div>
+                <h2 class="text-lg font-bold">高级会员</h2>
+                <p class="text-sm text-gray-500 mt-1">适合求职中的专业人士</p>
+                
+                <div class="plan-price">
+                    <span class="price-amount text-primary-600">¥29</span>
+                    <span class="price-period">/ 月</span>
+                    <span class="educational-badge">教育优惠 ¥19/月</span>
+                </div>
+                
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-icon included">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span>无限制生成简历</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon included">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span>访问全部30+专业模板</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon included">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span>高级AI简历优化与建议</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon included">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span>职位匹配度分析</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon included">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span>面试准备与辅导</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon included">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span>优先客户支持</span>
+                    </div>
+                </div>
+                
+                <button class="w-full py-3 mt-6 bg-primary-600 text-white font-medium rounded-lg">立即升级</button>
+            </div>
+            
+            <!-- 年度会员 -->
+            <div class="plan-card" style="display:none;">
+                <div class="plan-badge">最划算</div>
+                <h2 class="text-lg font-bold">年度会员</h2>
+                <p class="text-sm text-gray-500 mt-1">适合长期求职与职业发展</p>
+                
+                <div class="plan-price">
+                    <span class="price-amount text-primary-600">¥199</span>
+                    <span class="price-period">/ 年</span>
+                    <span class="text-sm text-red-500 ml-2">省¥149</span>
+                </div>
+                
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-icon included">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span>包含所有高级会员特权</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon included">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span>简历存储与云备份</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon included">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span>全年职业发展课程</span>
+                    </div>
+                </div>
+                
+                <button class="w-full py-3 mt-6 bg-primary-600 text-white font-medium rounded-lg">年付省40%</button>
+            </div>
+            
+            <div class="mt-6 mb-4">
+                <h3 class="text-lg font-semibold">学生认证</h3>
+                <p class="text-sm text-gray-600 mt-1">如果您是在校学生，可以享受教育优惠价格</p>
+                <button class="bg-white border border-primary-600 text-primary-600 w-full py-3 mt-4 font-medium rounded-lg flex items-center justify-center">
+                    <i class="fas fa-graduation-cap mr-2"></i>
+                    学生身份认证
+                </button>
+            </div>
+            
+            <div class="text-center text-sm text-gray-500 mt-6">
+                <p>有任何疑问? <a href="#" class="text-primary-600">联系客服</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

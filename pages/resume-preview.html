@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简历预览 - AI简历生成器</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #F9FAFB;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .preview-container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background-color: white;
+            padding: 16px;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            z-index: 10;
+            flex-shrink: 0;
+        }
+        .back-btn {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #4B5563;
+            font-size: 18px;
+        }
+        .preview-actions {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+        }
+        .action-btn {
+            color: #4B5563;
+            font-size: 18px;
+            margin-left: 16px;
+        }
+        .resume-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 16px;
+        }
+        .resume-paper {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+        .resume-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1F2937;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+        .resume-title {
+            font-size: 16px;
+            color: #4F46E5;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .resume-contact {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #4B5563;
+        }
+        .resume-contact-item {
+            display: flex;
+            align-items: center;
+        }
+        .resume-contact-item i {
+            margin-right: 4px;
+            font-size: 14px;
+        }
+        .resume-section {
+            margin-bottom: 20px;
+        }
+        .resume-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1F2937;
+            border-bottom: 1px solid #E5E7EB;
+            padding-bottom: 6px;
+            margin-bottom: 12px;
+        }
+        .resume-item {
+            margin-bottom: 12px;
+        }
+        .resume-item-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+        .resume-item-title {
+            font-weight: 600;
+            color: #1F2937;
+        }
+        .resume-item-duration {
+            color: #6B7280;
+            font-size: 13px;
+        }
+        .resume-item-subtitle {
+            color: #4B5563;
+            margin-bottom: 4px;
+        }
+        .resume-item-description {
+            color: #6B7280;
+            font-size: 14px;
+        }
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .skill-tag {
+            background-color: #F3F4F6;
+            color: #4B5563;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        .resume-tools {
+            background-color: white;
+            padding: 16px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            z-index: 10;
+            flex-shrink: 0;
+        }
+        .tool-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px;
+            color: #6B7280;
+            width: 33.33%;
+            justify-content: center;
+        }
+        .tool-btn i {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+        .tool-btn.primary {
+            color: var(--primary-color);
+        }
+        .resume-formats {
+            position: fixed;
+            bottom: 85px;
+            left: 16px;
+            right: 16px;
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(20px);
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.3s, opacity 0.3s;
+            z-index: 20;
+        }
+        .resume-formats.show {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .format-option {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #F3F4F6;
+        }
+        .format-option:last-child {
+            border-bottom: none;
+        }
+        .format-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #F3F4F6;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: #4B5563;
+        }
+        .format-pdf {
+            color: #EF4444;
+        }
+        .format-word {
+            color: #2563EB;
+        }
+        .format-text {
+            flex: 1;
+        }
+        .format-name {
+            font-weight: 500;
+            color: #1F2937;
+        }
+        .format-size {
+            font-size: 12px;
+            color: #6B7280;
+        }
+    </style>
+</head>
+<body>
+    <div class="preview-container">
+        <div class="header">
+            <a href="dashboard.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <h1 class="text-lg font-medium text-center">简历预览</h1>
+            <div class="preview-actions">
+                <a href="#" class="action-btn">
+                    <i class="fas fa-share-alt"></i>
+                </a>
+            </div>
+        </div>
+        
+        <div class="resume-content">
+            <div class="resume-paper">
+                <div class="resume-name">张小明</div>
+                <div class="resume-title">高级产品经理</div>
+                
+                <div class="resume-contact">
+                    <div class="resume-contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>138****1234</span>
+                    </div>
+                    <div class="resume-contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>zhangxm@example.com</span>
+                    </div>
+                    <div class="resume-contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>北京</span>
+                    </div>
+                </div>
+                
+                <div class="resume-section">
+                    <div class="resume-section-title">个人简介</div>
+                    <p class="text-sm text-gray-600 leading-relaxed">
+                        5年互联网产品经验，专注于用户体验设计和产品策略。曾负责多个千万级用户产品的规划与迭代，对数据驱动的产品决策有深入理解。善于跨部门协作，推动产品从构思到上线的全流程。
+                    </p>
+                </div>
+                
+                <div class="resume-section">
+                    <div class="resume-section-title">工作经历</div>
+                    
+                    <div class="resume-item">
+                        <div class="resume-item-header">
+                            <div class="resume-item-title">北京科技有限公司</div>
+                            <div class="resume-item-duration">2020.06 - 至今</div>
+                        </div>
+                        <div class="resume-item-subtitle">高级产品经理</div>
+                        <ul class="ml-4 mt-2">
+                            <li class="resume-item-description">• 负责公司核心产品的规划和迭代，用户增长30%，用户活跃度提升40%</li>
+                            <li class="resume-item-description">• 主导产品改版项目，优化用户路径，转化率提升25%</li>
+                            <li class="resume-item-description">• 建立产品数据分析体系，推动数据驱动的决策流程</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="resume-item">
+                        <div class="resume-item-header">
+                            <div class="resume-item-title">上海互联网科技有限公司</div>
+                            <div class="resume-item-duration">2017.07 - 2020.05</div>
+                        </div>
+                        <div class="resume-item-subtitle">产品经理</div>
+                        <ul class="ml-4 mt-2">
+                            <li class="resume-item-description">• 负责移动端产品功能设计和用户体验优化</li>
+                            <li class="resume-item-description">• 主导实施A/B测试策略，提高产品关键指标15%</li>
+                            <li class="resume-item-description">• 与开发、设计团队紧密合作，确保产品高质量交付</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="resume-section">
+                    <div class="resume-section-title">教育背景</div>
+                    
+                    <div class="resume-item">
+                        <div class="resume-item-header">
+                            <div class="resume-item-title">北京大学</div>
+                            <div class="resume-item-duration">2013.09 - 2017.06</div>
+                        </div>
+                        <div class="resume-item-subtitle">计算机科学与技术 | 本科</div>
+                        <div class="resume-item-description">GPA: 3.8/4.0，获得校级奖学金两次</div>
+                    </div>
+                </div>
+                
+                <div class="resume-section">
+                    <div class="resume-section-title">技能专长</div>
+                    <div class="skills-list">
+                        <span class="skill-tag">产品规划</span>
+                        <span class="skill-tag">用户研究</span>
+                        <span class="skill-tag">数据分析</span>
+                        <span class="skill-tag">项目管理</span>
+                        <span class="skill-tag">原型设计</span>
+                        <span class="skill-tag">需求分析</span>
+                        <span class="skill-tag">市场分析</span>
+                        <span class="skill-tag">Axure RP</span>
+                        <span class="skill-tag">Figma</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center text-gray-500 text-sm mb-4">
+                由AI简历生成器生成 · 更新于2023年10月15日
+            </div>
+        </div>
+        
+        <div class="resume-tools">
+            <div class="tool-btn">
+                <i class="fas fa-edit"></i>
+                <span>编辑</span>
+            </div>
+            <div class="tool-btn">
+                <i class="fas fa-magic"></i>
+                <span>优化</span>
+            </div>
+            <div class="tool-btn" id="downloadTool">
+                <i class="fas fa-download"></i>
+                <span>下载</span>
+            </div>
+        </div>
+        
+        <div class="resume-formats" id="formatOptions">
+            <h3 class="text-base font-medium mb-2">选择下载格式</h3>
+            
+            <div class="format-option">
+                <div class="format-icon format-pdf">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <div class="format-text">
+                    <div class="format-name">PDF文档</div>
+                    <div class="format-size">高质量，适合直接投递</div>
+                </div>
+                <div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+            </div>
+            
+            <div class="format-option">
+                <div class="format-icon format-word">
+                    <i class="fas fa-file-word"></i>
+                </div>
+                <div class="format-text">
+                    <div class="format-name">Word文档</div>
+                    <div class="format-size">可编辑，适合进一步修改</div>
+                </div>
+                <div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+            </div>
+            
+            <div class="format-option">
+                <div class="format-icon">
+                    <i class="fas fa-file-image"></i>
+                </div>
+                <div class="format-text">
+                    <div class="format-name">图片格式 (JPG)</div>
+                    <div class="format-size">适合社交媒体分享</div>
+                </div>
+                <div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const downloadTool = document.getElementById('downloadTool');
+            const formatOptions = document.getElementById('formatOptions');
+            
+            downloadTool.addEventListener('click', function(e) {
+                e.preventDefault();
+                formatOptions.classList.toggle('show');
+            });
+            
+            // 点击文档其他地方关闭下载选项
+            document.addEventListener('click', function(e) {
+                if (!formatOptions.contains(e.target) && !downloadTool.contains(e.target)) {
+                    formatOptions.classList.remove('show');
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

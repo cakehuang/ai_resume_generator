@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>选择模板 - AI简历生成器</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #F9FAFB;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .template-container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 16px;
+            position: relative;
+        }
+        .back-btn {
+            position: absolute;
+            left: 16px;
+            top: 16px;
+            color: white;
+            font-size: 18px;
+        }
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+        .category-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #E5E7EB;
+            background-color: white;
+        }
+        .category-tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            font-weight: 500;
+            font-size: 14px;
+            color: #4B5563;
+        }
+        .category-tab.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .template-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            border: 1px solid #E5E7EB;
+            position: relative;
+        }
+        .template-card.selected {
+            border: 2px solid var(--primary-color);
+        }
+        .template-preview {
+            width: 100%;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            border-bottom: 1px solid #E5E7EB;
+        }
+        .template-info {
+            padding: 12px;
+        }
+        .template-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #1F2937;
+            margin-bottom: 4px;
+        }
+        .template-description {
+            font-size: 12px;
+            color: #6B7280;
+        }
+        .pro-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 10px;
+            font-weight: 500;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        .template-card.locked::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .lock-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: #6B7280;
+            z-index: 1;
+        }
+        .bottom-actions {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            padding: 16px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        }
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .tag {
+            background-color: #F3F4F6;
+            color: #4B5563;
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 12px;
+        }
+        .tag.active {
+            background-color: #EEF2FF;
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="template-container">
+        <div class="header">
+            <a href="dashboard.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+            <h1 class="text-xl font-bold text-center">选择简历模板</h1>
+            <p class="text-center text-sm mt-1 opacity-80">选择一个你喜欢的模板开始创建</p>
+        </div>
+        
+        <div class="content-area">
+            <div class="category-tabs">
+                <div class="category-tab active">所有</div>
+                <div class="category-tab">免费</div>
+                <div class="category-tab">高级</div>
+            </div>
+            
+            <div class="tags-container">
+                <div class="tag active">全部</div>
+                <div class="tag">应届生</div>
+                <div class="tag">IT互联网</div>
+                <div class="tag">设计创意</div>
+                <div class="tag">金融财务</div>
+                <div class="tag">市场营销</div>
+                <div class="tag">医疗健康</div>
+            </div>
+            
+            <div class="template-grid">
+                <!-- 模板1 -->
+                <div class="template-card selected">
+                    <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80" alt="管理通用模板" class="template-preview">
+                    <div class="template-info">
+                        <div class="template-name">管理通用</div>
+                        <div class="template-description">适合大多数职位</div>
+                    </div>
+                </div>
+                
+                <!-- 模板2 -->
+                <div class="template-card">
+                    <img src="https://images.unsplash.com/photo-1565945887714-d5139f4eb0ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80" alt="金融高级模板" class="template-preview">
+                    <div class="template-info">
+                        <div class="template-name">金融高级</div>
+                        <div class="template-description">适合管理岗位</div>
+                    </div>
+                </div>
+                
+                <!-- 模板3 -->
+                <div class="template-card locked">
+                    <i class="fas fa-lock lock-icon"></i>
+                    <img src="https://images.unsplash.com/photo-1595777216528-071e0127ccbf?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80" alt="设计行业模板" class="template-preview">
+                    <div class="pro-badge">高级</div>
+                    <div class="template-info">
+                        <div class="template-name">设计行业</div>
+                        <div class="template-description">适合创意行业</div>
+                    </div>
+                </div>
+                
+                <!-- 模板4 -->
+                <div class="template-card locked">
+                    <i class="fas fa-lock lock-icon"></i>
+                    <img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80" alt="IT工程师模板" class="template-preview">
+                    <div class="pro-badge">高级</div>
+                    <div class="template-info">
+                        <div class="template-name">IT工程师</div>
+                        <div class="template-description">适合IT、互联网</div>
+                    </div>
+                </div>
+                
+                <!-- 模板5 -->
+                <div class="template-card">
+                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80" alt="教育研究模板" class="template-preview">
+                    <div class="template-info">
+                        <div class="template-name">教育研究</div>
+                        <div class="template-description">适合学术研究</div>
+                    </div>
+                </div>
+                
+                <!-- 模板6 -->
+                <div class="template-card locked">
+                    <i class="fas fa-lock lock-icon"></i>
+                    <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80" alt="市场营销模板" class="template-preview">
+                    <div class="pro-badge">高级</div>
+                    <div class="template-info">
+                        <div class="template-name">市场营销</div>
+                        <div class="template-description">突出多领域技能</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center text-gray-500 text-sm mb-8">
+                <p>共有30+款模板，升级会员查看更多</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
